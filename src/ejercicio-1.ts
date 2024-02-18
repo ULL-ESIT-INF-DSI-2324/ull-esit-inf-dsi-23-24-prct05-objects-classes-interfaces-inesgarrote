@@ -46,6 +46,7 @@ interface ElementoBibliografico {
  * @param editorial: string
  * @param n_revista: number
  * @param volumen: number
+ 
  */
 export class ArticuloRevista implements ElementoBibliografico {
   constructor(

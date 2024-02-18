@@ -3,11 +3,13 @@
 # Práctica 5 - Objetos, clases e interfaces
 
 Práctica 5 de la asignatura Desarrollo de Sistemas.  
-Realizada por Inés Garrote Fontenla [alu0101512297@ull.edu.es](alu0101512297@ull.edu.es)  
+Realizada por Inés Garrote Fontenla [alu0101512297@ull.edu.es](alu0101512297@ull.edu.es)
 
 ---
+
 # Informe
-Realizada por Inés Garrote Fontenla [alu0101512297@ull.edu.es](alu0101512297@ull.edu.es) 
+
+Realizada por Inés Garrote Fontenla [alu0101512297@ull.edu.es](alu0101512297@ull.edu.es)
 Enlace al repositorio de Github asociado a la práctica [ll-esit-inf-dsi-23-24-prct05-vscode-inesgarrote](https://github.com/ULL-ESIT-INF-DSI-2324/ull-esit-inf-dsi-23-24-prct05-objects-classes-interfaces-inesgarrote.git)
 
 ## Introducción
@@ -43,6 +45,7 @@ El desarrollo debe cumplir con ciertas funcionalidades clave:
 Para ello, se implementó el siguiente código:
 
 **Interfaz ElementoBibliografico**:
+
 ```typescript
 interface ElementoBibliografico {
   titulo: string;
@@ -65,6 +68,7 @@ interface ElementoBibliografico {
   FormatoIEEE: () => void; // referencia para cada elemento bibliografico en formato IEEE
 }
 ```
+
 - Define la estructura común que deben tener todos los elementos bibliográficos.
 - Incluye propiedades como titulo, autor, palabras_clave, resumen, fecha, etc. También incluye propiedades opcionales que dependen de la tipología del elemento bibliográfico.
 - Contiene un método FormatoIEEE que se espera que implementen todas las clases que implementan esta interfaz.
@@ -72,6 +76,7 @@ interface ElementoBibliografico {
 ### Clases que implementan la interfaz ElementoBibliografico
 
 **ArticuloRevista**:
+
 ```typescript
 export class ArticuloRevista implements ElementoBibliografico {
   constructor(
@@ -91,11 +96,13 @@ export class ArticuloRevista implements ElementoBibliografico {
   }
 }
 ```
+
 - Representa un artículo de revista.
 - Implementa la interfaz ElementoBibliografico.
 - Incluye un método FormatoIEEE que devuelve una referencia en formato IEEE para un artículo de revista.
 
 **ContribucionCongreso**:
+
 ```typescript
 export class ContribuicionCongreso implements ElementoBibliografico {
   constructor(
@@ -114,11 +121,13 @@ export class ContribuicionCongreso implements ElementoBibliografico {
   }
 }
 ```
+
 - Representa una contribución a congreso.
 - Implementa la interfaz ElementoBibliografico.
 - Incluye un método FormatoIEEE que devuelve una referencia en formato IEEE para una contribución a congreso.
 
 **CapituloLibro**:
+
 ```typescript
 export class CapituloLibro implements ElementoBibliografico {
   constructor(
@@ -140,11 +149,13 @@ export class CapituloLibro implements ElementoBibliografico {
   }
 }
 ```
+
 - Representa un capítulo de libro.
 - Implementa la interfaz ElementoBibliografico.
 - Incluye un método FormatoIEEE que devuelve una referencia en formato IEEE para un capítulo de libro.
 
 **Libro**:
+
 ```typescript
 export class Libro implements ElementoBibliografico {
   constructor(
@@ -166,11 +177,13 @@ export class Libro implements ElementoBibliografico {
   }
 }
 ```
+
 - Representa un libro.
 - Implementa la interfaz ElementoBibliografico.
 - Incluye un método FormatoIEEE que devuelve una referencia en formato IEEE para un libro.
 
 **TrabajoFinGrado**:
+
 ```typescript
 export class TrabajoFinGrado implements ElementoBibliografico {
   constructor(
@@ -192,6 +205,7 @@ export class TrabajoFinGrado implements ElementoBibliografico {
   }
 }
 ```
+
 - Representa un trabajo de fin de grado.
 - Implementa la interfaz ElementoBibliografico.
 - Incluye un método FormatoIEEE que devuelve una referencia en formato IEEE para un trabajo de fin de grado.
@@ -245,32 +259,40 @@ export class GestorBibliografico {
   }
 }
 ```
+
 - Representa un gestor bibliográfico que almacena una lista de elementos bibliográficos.
 - Incluye métodos como addElementoBibliografico, MostrarPorConsola, BusquedaElemento y ExportarIEEEFormat.
 
 **Constructor**:
+
 ```typescript
 constructor(public bibliografia: ElementoBibliografico[] = []) {}
 ```
+
 El constructor inicializa la instancia de la clase con una bibliografía, que es un array vacío por defecto.
 
 **addElementoBibliografico(elemento: ElementoBibliografico): void**:
+
 ```typescript
 addElementoBibliografico(elemento: ElementoBibliografico) {
   this.bibliografia.push(elemento);
 }
 ```
+
 Agrega un nuevo elemento bibliográfico a la lista de bibliografía.
 
 **MostrarPorConsola(): void**:
+
 ```typescript
 MostrarPorConsola(): void {
   console.table(this.bibliografia);
 }
 ```
+
 Muestra la bibliografía por consola en formato de tabla.
 
 **BusquedaElemento(filtro: string, valor: string): ElementoBibliografico[]**:
+
 ```typescript
 BusquedaElemento(filtro: string, valor: string): ElementoBibliografico[] {
   return this.bibliografia.filter((elemento) => {
@@ -278,18 +300,22 @@ BusquedaElemento(filtro: string, valor: string): ElementoBibliografico[] {
   });
 }
 ```
+
 Realiza una búsqueda en la bibliografía según un filtro y un valor proporcionados. Devuelve un array con los elementos encontrados.
 
 **ExportarIEEEFormat(filtro: string, palabra_clave: string): string**:
+
 ```typescript
 ExportarIEEEFormat(filtro: string, palabra_clave: string): string {
   const resultados = this.BusquedaElemento(filtro, palabra_clave);
   return resultados.map((elemento) => elemento.FormatoIEEE()).join("\n\n");
 }
 ```
+
 Exporta la bibliografía que cumple con ciertos criterios (filtrada por un filtro y un valor) en formato IEEE. Devuelve una cadena con las referencias en formato IEEE.
 
 ### Ejercicio 2 - Menús saludables orientados a objetos
+
 El objetivo de este ejercicio es diseñar e implementar un conjunto de clases e interfaces orientadas a objetos para automatizar la creación de menús saludables. Se espera que el diseño incluya las siguientes clases:
 
 **MenuSolution (Solución de Menú)**:
