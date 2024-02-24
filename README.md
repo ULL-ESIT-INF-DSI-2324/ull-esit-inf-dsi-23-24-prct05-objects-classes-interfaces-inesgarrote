@@ -448,3 +448,7 @@ Por último, se realizaron pruebas para la función implementada. Se creó un ar
 ## Conclusiones y Problemas Encontrados
 
 En esta práctica se ha aprendido a utilizar Objetos, Clases e Interfaces en TypeScript. Además, se ha aprendido a utilizar herramientas como Typedoc, Mocha y Chai, Instambull y Coveralls.
+
+Lo más complicado para mí fue entender el ejercicio1 y cómo implementar las clases y las interfaces. Me pareció un ejercicio largo y tedioso. Por otro lado, enteder los Principios SOLID y el Patrón de comportamiento Strategy me resultó difícil, ya que era algo nuevo para mí y no sabía cómo aplicarlo.
+
+Tambíen me surgieron algunas dudas con lo del cubrimiento de código, ya que a menudo me salen ciertas líneas que no están cubiertas y no sé cómo solucionarlo. Pero puede configurar Coveralls sin dificultad.
