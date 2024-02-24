@@ -22,6 +22,9 @@ También usaremos Mocha y Chai que las utilizaremos para incorporar desarrollo d
 
 Tambíen nos introduciremos en los principios de SOLID, que son un conjunto de cinco principios de diseño de código orientado a objetos que se utilizan para diseñar software más fácil de mantener y extender. Además de herramientas tales como Instambull y Coveralls que nos ayudarán a realizar un seguimiento de la cobertura de nuestras pruebas.
 
+## Configuración de Coveralls
+[![Coverage Status](https://coveralls.io/repos/github/ULL-ESIT-INF-DSI-2324/ull-esit-inf-dsi-23-24-prct05-objects-classes-interfaces-inesgarrote/badge.svg?branch=main)](https://coveralls.io/github/ULL-ESIT-INF-DSI-2324/ull-esit-inf-dsi-23-24-prct05-objects-classes-interfaces-inesgarrote?branch=main)
+
 ## Ejercicios
 
 Para poder aprender los conceptos de la práctica, se realizaron una serie de ejercicios que se detallan a continuación.
@@ -314,6 +317,8 @@ ExportarIEEEFormat(filtro: string, palabra_clave: string): string {
 
 Exporta la bibliografía que cumple con ciertos criterios (filtrada por un filtro y un valor) en formato IEEE. Devuelve una cadena con las referencias en formato IEEE.
 
+Por último, se realizaron pruebas para la función implementada. Se creó un archivo de pruebas llamado ejercicio-1.spec.ts que contiene pruebas para la función implementada.
+
 ### Ejercicio 2 - Menús saludables orientados a objetos
 
 El objetivo de este ejercicio es diseñar e implementar un conjunto de clases e interfaces orientadas a objetos para automatizar la creación de menús saludables. Se espera que el diseño incluya las siguientes clases:
@@ -334,3 +339,112 @@ El objetivo de este ejercicio es diseñar e implementar un conjunto de clases e 
 - Debe ser capaz de generar soluciones para el problema de diseño del menú saludable utilizando las heurísticas propuestas.
 
 El diseño y la implementación deben reflejar la estructura lógica del problema y permitir la interacción entre las clases de manera coherente. Además, se espera que las clases sigan los principios de la programación orientada a objetos, como encapsulamiento, herencia y polimorfismo, para facilitar la extensibilidad y mantenibilidad del código.
+
+Además, en la última clase de Teoría aprendimos acerca de los principios SOLID y Patrón de comportamiento Strategy, por lo que en este ejercicio se ha aplicado.
+
+Para ello, se implementó el siguiente código:
+
+**Definición del tipo Dish**:
+
+```typescript
+export type Dish = [number, number]; // [nutriScore, unhealthyScore]
+```
+
+Se define un tipo Dish que representa un plato con dos valores numéricos: nutriScore (puntuación nutricional) y unhealthyScore (puntuación de insalubridad).
+
+**Clase MenuInstance**:
+
+```typescript
+export class MenuInstance {
+  constructor(
+    public dishes: Dish[], // conjunto de platos
+    public maxUnhealthyScore: number, // puntuación máxima de insalubridad
+  ) {}
+}
+```
+
+MenuInstance es una clase que representa una instancia del problema del menú saludable.
+Tiene un constructor que recibe un conjunto de platos (dishes) y la puntuación máxima de insalubridad permitida (maxUnhealthyScore).
+
+**Clase MenuSolution**:
+
+```typescript
+export class MenuSolution {
+  constructor(
+    public selectedDishes: Dish[],
+    public totalUnhealthyScore: number,
+  ) {}
+}
+```
+
+MenuSolution es una clase que representa una solución al problema del menú saludable.
+Tiene un constructor que recibe los platos seleccionados (selectedDishes) y la puntuación total de insalubridad (totalUnhealthyScore).
+
+**Interfaz SortingStrategy**:
+
+```typescript
+export interface SortingStrategy {
+  sort(dishes: Dish[]): Dish[];
+}
+```
+
+SortingStrategy es una interfaz que define las estrategias de ordenación.
+
+**Clase Solver**:
+
+```typescript
+export class Solver {
+  private sortingStrategy: SortingStrategy;
+
+  constructor(sortingStrategy: SortingStrategy) {
+    this.sortingStrategy = sortingStrategy;
+  }
+
+  setSortingStrategy(sortingStrategy: SortingStrategy): void {
+    this.sortingStrategy = sortingStrategy;
+  }
+
+  designHealthyMenu(menuInstance: MenuInstance): MenuSolution {
+    // ...
+  }
+}
+```
+
+- Solver es una clase que implementa la funcionalidad para resolver el problema del menú saludable.
+- Tiene un atributo sortingStrategy que representa la estrategia de ordenación actual.
+- El método setSortingStrategy permite cambiar la estrategia de ordenación en tiempo de ejecución.
+- El método designHealthyMenu utiliza la estrategia de ordenación actual para diseñar un menú saludable.
+
+**Implementaciones de SortingStrategy**:
+
+```typescript
+export class SortByNutritionalValue implements SortingStrategy {
+  sort(dishes: Dish[]): Dish[] {
+    return dishes.slice().sort((a, b) => b[0] - a[0]);
+  }
+}
+
+export class SortByUnhealthyScore implements SortingStrategy {
+  sort(dishes: Dish[]): Dish[] {
+    return dishes.slice().sort((a, b) => a[1] - b[1]);
+  }
+}
+
+export class SortByNutritionalRatio implements SortingStrategy {
+  sort(dishes: Dish[]): Dish[] {
+    return dishes.slice().sort((a, b) => b[0] / b[1] - a[0] / a[1]);
+  }
+}
+```
+
+Estas clases implementan la interfaz SortingStrategy y proporcionan algoritmos específicos de ordenación.
+
+- SortByNutritionalValue ordena los platos por valor nutricional descendente.
+- SortByUnhealthyScore ordena los platos por grado de insalubridad ascendente.
+- SortByNutritionalRatio ordena los platos por ratio valor nutricional / grado de insalubridad descendente.
+
+Por último, se realizaron pruebas para la función implementada. Se creó un archivo de pruebas llamado ejercicio-2.spec.ts que contiene pruebas para la función implementada.
+
+## Conclusiones y Problemas Encontrados
+
+En esta práctica se ha aprendido a utilizar Objetos, Clases e Interfaces en TypeScript. Además, se ha aprendido a utilizar herramientas como Typedoc, Mocha y Chai, Instambull y Coveralls.

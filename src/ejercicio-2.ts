@@ -35,50 +35,40 @@ export class MenuSolution {
 }
 
 /**
- * @brief Clase Solver que implementa la funcionalidad de las tres heurísticas de resolución
+ * @brief Interfaz para la estrategia de ordenación
+ */
+export interface SortingStrategy {
+  sort(dishes: Dish[]): Dish[];
+}
+
+/**
+ * @brief Clase Solver que implementa la funcionalidad de resolver el problema del menú saludable
  */
 export class Solver {
-  /**
-   * @brief Heurística 1: Ordenar por Valor Nutricional Descendente
-   * @param dishes
-   * @returns lista de platos ordenada por valor nutricional descendente
-   */
-  static sortByNutritionalValue(dishes: Dish[]): Dish[] {
-    return dishes.slice().sort((a, b) => b[0] - a[0]);
+  private sortingStrategy: SortingStrategy;
+
+  constructor(sortingStrategy: SortingStrategy) {
+    this.sortingStrategy = sortingStrategy;
   }
 
   /**
-   * @brief Heurística 2: Ordenar por Grado de Insalubridad Ascendente
-   * @param dishes
-   * @returns lista de platos ordenada por grado de insalubridad ascendente
+   * @brief Método para cambiar la estrategia de ordenación en tiempo de ejecución
+   * @param sortingStrategy Nueva estrategia de ordenación
    */
-  static sortByUnhealthyScore(dishes: Dish[]): Dish[] {
-    return dishes.slice().sort((a, b) => a[1] - b[1]);
+  setSortingStrategy(sortingStrategy: SortingStrategy): void {
+    this.sortingStrategy = sortingStrategy;
   }
 
   /**
-   * @brief Heurística 3: Ordenar por Ratio Valor Nutricional / Grado de Insalubridad Descendente
-   * @param dishes
-   * @returns lista de platos ordenada por ratio valor nutricional / grado de insalubridad descendente
+   * @brief Método para diseñar un menú saludable según la estrategia de ordenación dada
+   * @param menuInstance Instancia del problema del menú saludable
+   * @returns Solución al problema del menú saludable
    */
-  static sortByNutritionalRatio(dishes: Dish[]): Dish[] {
-    return dishes.slice().sort((a, b) => b[0] / b[1] - a[0] / a[1]);
-  }
-
-  /**
-   * @brief Diseña un menú saludable según una heurística dada
-   * @param menuInstance instancia del problema del menú saludable
-   * @param heuristic heurística para ordenar los platos
-   * @returns solución al problema del menú saludable
-   */
-  static designHealthyMenu(
-    menuInstance: MenuInstance,
-    heuristic: (dishes: Dish[]) => Dish[],
-  ): MenuSolution {
+  designHealthyMenu(menuInstance: MenuInstance): MenuSolution {
     let currentUnhealthyScore = 0;
     const selectedDishes: Dish[] = [];
 
-    for (const dish of heuristic(menuInstance.dishes)) {
+    for (const dish of this.sortingStrategy.sort(menuInstance.dishes)) {
       if (currentUnhealthyScore + dish[1] <= menuInstance.maxUnhealthyScore) {
         selectedDishes.push(dish);
         currentUnhealthyScore += dish[1];
@@ -88,6 +78,33 @@ export class Solver {
     }
 
     return new MenuSolution(selectedDishes, currentUnhealthyScore);
+  }
+}
+
+/**
+ * @brief Implementación de la estrategia de ordenación por Valor Nutricional Descendente
+ */
+export class SortByNutritionalValue implements SortingStrategy {
+  sort(dishes: Dish[]): Dish[] {
+    return dishes.slice().sort((a, b) => b[0] - a[0]);
+  }
+}
+
+/**
+ * @brief Implementación de la estrategia de ordenación por Grado de Insalubridad Ascendente
+ */
+export class SortByUnhealthyScore implements SortingStrategy {
+  sort(dishes: Dish[]): Dish[] {
+    return dishes.slice().sort((a, b) => a[1] - b[1]);
+  }
+}
+
+/**
+ * @brief Implementación de la estrategia de ordenación por Ratio Valor Nutricional / Grado de Insalubridad Descendente
+ */
+export class SortByNutritionalRatio implements SortingStrategy {
+  sort(dishes: Dish[]): Dish[] {
+    return dishes.slice().sort((a, b) => b[0] / b[1] - a[0] / a[1]);
   }
 }
 
@@ -109,18 +126,14 @@ const maxUnhealthyScore = 8;
 
 const menuInstance = new MenuInstance(dishes, maxUnhealthyScore);
 
-const menu1 = Solver.designHealthyMenu(
-  menuInstance,
-  Solver.sortByNutritionalValue,
-);
-const menu2 = Solver.designHealthyMenu(
-  menuInstance,
-  Solver.sortByUnhealthyScore,
-);
-const menu3 = Solver.designHealthyMenu(
-  menuInstance,
-  Solver.sortByNutritionalRatio,
-);
+const solver = new Solver(new SortByNutritionalValue());
+const menu1 = solver.designHealthyMenu(menuInstance);
+
+solver.setSortingStrategy(new SortByUnhealthyScore());
+const menu2 = solver.designHealthyMenu(menuInstance);
+
+solver.setSortingStrategy(new SortByNutritionalRatio());
+const menu3 = solver.designHealthyMenu(menuInstance);
 
 console.log("Menú 1:", menu1);
 console.log("Menú 2:", menu2);

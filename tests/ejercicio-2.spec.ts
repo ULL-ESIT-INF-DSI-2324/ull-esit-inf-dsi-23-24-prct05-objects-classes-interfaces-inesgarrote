@@ -1,6 +1,15 @@
 import "mocha";
 import { expect } from "chai";
-import { Dish, MenuInstance, MenuSolution, Solver } from "../src/ejercicio-2";
+import {
+  Dish,
+  MenuInstance,
+  MenuSolution,
+  Solver,
+  SortByNutritionalValue,
+  SortByUnhealthyScore,
+  SortByNutritionalRatio,
+  SortingStrategy,
+} from "../src/ejercicio-2";
 
 describe("MenuInstance class tests", () => {
   it("should create a MenuInstance", () => {
@@ -69,66 +78,19 @@ describe("Solver class tests", () => {
   ];
   const maxUnhealthyScore = 8;
 
-  it("should sort dishes by nutritional value in descending order", () => {
-    const expectedOutput: Dish[] = [
-      [12, 6],
-      [10, 5],
-      [9, 4],
-      [8, 3],
-      [7, 2],
-      [6, 3],
-      [5, 1],
-      [3, 1],
-      [2, 1],
-      [2, 1],
-    ];
-    expect(Solver.sortByNutritionalValue(dishes)).to.eql(expectedOutput);
-  });
-
-  it("should sort dishes by unhealthy score in ascending order", () => {
-    const expectedOutput: Dish[] = [
-      [5, 1],
-      [3, 1],
-      [2, 1],
-      [2, 1],
-      [7, 2],
-      [8, 3],
-      [6, 3],
-      [9, 4],
-      [10, 5],
-      [12, 6],
-    ];
-    expect(Solver.sortByUnhealthyScore(dishes)).to.eql(expectedOutput);
-  });
-
-  it("should sort dishes by nutritional ratio in descending order", () => {
-    const expectedOutput: Dish[] = [
-      [5, 1],
-      [7, 2],
-      [3, 1],
-      [8, 3],
-      [9, 4],
-      [10, 5],
-      [2, 1],
-      [12, 6],
-      [6, 3],
-      [2, 1],
-    ];
-    expect(Solver.sortByNutritionalRatio(dishes)).to.eql(expectedOutput);
-  });
-
-  it("should design a healthy menu using sortByNutritionalValue", () => {
+  it("should design a healthy menu using SortByNutritionalValue strategy", () => {
     const menuInstance = new MenuInstance(dishes, maxUnhealthyScore);
+    const sortingStrategy: SortingStrategy = new SortByNutritionalValue();
+    const solver = new Solver(sortingStrategy);
     const expectedOutput = new MenuSolution([[12, 6]], 6);
-    const result = Solver.designHealthyMenu(
-      menuInstance,
-      Solver.sortByNutritionalValue,
-    );
+    const result = solver.designHealthyMenu(menuInstance);
     expect(result).to.eql(expectedOutput);
   });
 
-  it("should design a healthy menu using sortByUnhealthyScore", () => {
+  it("should design a healthy menu using SortByUnhealthyScore strategy", () => {
     const menuInstance = new MenuInstance(dishes, maxUnhealthyScore);
+    const sortingStrategy: SortingStrategy = new SortByUnhealthyScore();
+    const solver = new Solver(sortingStrategy);
     const expectedOutput = new MenuSolution(
       [
         [5, 1],
@@ -139,15 +101,14 @@ describe("Solver class tests", () => {
       ],
       6,
     );
-    const result = Solver.designHealthyMenu(
-      menuInstance,
-      Solver.sortByUnhealthyScore,
-    );
+    const result = solver.designHealthyMenu(menuInstance);
     expect(result).to.eql(expectedOutput);
   });
 
-  it("should design a healthy menu using sortByNutritionalRatio", () => {
+  it("should design a healthy menu using SortByNutritionalRatio strategy", () => {
     const menuInstance = new MenuInstance(dishes, maxUnhealthyScore);
+    const sortingStrategy: SortingStrategy = new SortByNutritionalRatio();
+    const solver = new Solver(sortingStrategy);
     const expectedOutput = new MenuSolution(
       [
         [5, 1],
@@ -157,10 +118,7 @@ describe("Solver class tests", () => {
       ],
       7,
     );
-    const result = Solver.designHealthyMenu(
-      menuInstance,
-      Solver.sortByNutritionalRatio,
-    );
+    const result = solver.designHealthyMenu(menuInstance);
     expect(result).to.eql(expectedOutput);
   });
 });

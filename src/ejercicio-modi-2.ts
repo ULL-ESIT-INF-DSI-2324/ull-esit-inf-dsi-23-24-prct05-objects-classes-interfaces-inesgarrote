@@ -10,38 +10,40 @@ Programe las entidades necesarias para modelar lo anterior y cree múltiples ins
  * @brief Interfaz que define las propiedades de un alimento
  */
 interface Alimento {
-    nombre: string;
-    informacionNutricional: string;
-    cantidad: number;
+  nombre: string;
+  informacionNutricional: string;
+  cantidad: number;
 }
-
 
 /**
  * @brief Clase que representa una bebida
- * 
+ *
  */
 export class Nevera implements Alimento {
-    nombre: string;
-    informacionNutricional: string;
-    cantidad: number;
-    listaCompra: Alimento[] = [];
+  nombre: string;
+  informacionNutricional: string;
+  cantidad: number;
+  listaCompra: Alimento[] = [];
 
-    constructor(nombre: string, informacionNutricional: string, cantidad: number) {
-        this.nombre = nombre;
-        this.informacionNutricional = informacionNutricional;
-        this.cantidad = cantidad;
-    }
+  constructor(
+    nombre: string,
+    informacionNutricional: string,
+    cantidad: number,
+  ) {
+    this.nombre = nombre;
+    this.informacionNutricional = informacionNutricional;
+    this.cantidad = cantidad;
+  }
 
-    anadirAlimento(alimento: Alimento) {
-        this.listaCompra.push(alimento);
-    }
+  anadirAlimento(alimento: Alimento) {
+    this.listaCompra.push(alimento);
+  }
 
-    consumirAlimento(alimento: Alimento) {
-        this.listaCompra.pop();
-    }
+  consumirAlimento(alimento: Alimento) {
+    this.listaCompra.pop();
+  }
 
-    consultarListaCompra() {
-        return this.listaCompra;
-    }
+  consultarListaCompra() {
+    return this.listaCompra;
+  }
 }
-

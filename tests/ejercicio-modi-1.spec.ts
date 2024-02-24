@@ -7,8 +7,8 @@
  * Práctica
  * @author Inés Garrote Fontenla alu0101512297@ull.edu.es
  * @date 08 feb 2024
- * @file ejercicio-modi.spects: 
- * @brief 
+ * @file ejercicio-modi.spects:
+ * @brief
  */
 
 import "mocha";
@@ -19,7 +19,7 @@ describe("getAllergens function tests", () => {
   it("getAllergens(144) should return [Gato, Tomate]", () => {
     expect(getAllergens(144)).to.be.eql([128, 16]);
   });
-  
+
   it("getAllergens(129 should return [Gato, Huevo]", () => {
     expect(getAllergens(129)).to.be.eql([128, 1]);
   });
@@ -38,5 +38,4 @@ describe("getAllergens function tests", () => {
   it("getAllergens(-14) should return undefined", () => {
     expect(getAllergens(-14)).to.be.undefined;
   });
-  
 });
